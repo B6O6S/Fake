@@ -1,0 +1,7 @@
+local StarterGui = game:GetService("StarterGui")
+
+StarterGui:SetCore("SendNotification", {
+    Title = "👑 النسخه الاسطوريه 👑"; -- The title of the notification
+    Text = "انت لا تملك النسخه/ليس لك الصلاحية للنسخه الاسطوريه."; -- The body of the notification
+    Duration = 5; -- Time the notification will stay (in seconds)
+})
