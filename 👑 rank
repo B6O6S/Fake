@@ -3,12 +3,12 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
--- Function to create a smooth transition between pink and white
-local function getPinkToWhiteColor(t)
-    local r = math.sin(t) * 127 + 255 -- Adjust red to move from pink to white
-    local g = math.sin(t + math.pi / 2) * 127 + 128 -- Adjust green slightly to pink
-    local b = math.sin(t) * 127 + 255 -- Adjust blue to move from pink to white
-    return Color3.fromRGB(r, g, b)
+-- Function to create a smooth transition between yellow and white
+local function getYellowToWhiteColor(t)
+    local r = math.sin(t) * 127 + 255 -- Adjust red to move from yellow to white
+    local g = math.sin(t) * 127 + 255 -- Adjust green to move from yellow to white
+    local b = math.sin(t) * 127 + 255 -- Adjust blue to white
+    return Color3.fromRGB(r, g, 0) -- Set blue to 0 for yellow; the transition moves from yellow to white
 end
 
 -- Function to create the BillboardGui
@@ -35,9 +35,9 @@ local function createBillboardGui(character)
         textLabel.Parent = billboardGui
         textLabel.Size = UDim2.new(1, 0, 1, 0) -- Full size of the billboard for the text
         textLabel.Position = UDim2.new(0, 0, 0, 0) -- Position it at the top
-        textLabel.Text = "👑 مستخدم اسطوري" -- Updated text with crown emoji
+        textLabel.Text = "مستخدم اسطوري 👑" -- Updated text with crown emoji
         textLabel.TextScaled = true -- Scales the text to fit the label size
-        textLabel.TextColor3 = Color3.fromRGB(255, 182, 193) -- Start with pink color
+        textLabel.TextColor3 = Color3.fromRGB(255, 255, 0) -- Start with yellow color
         textLabel.TextStrokeTransparency = 0.5 -- Adds an outline to the text for readability
         textLabel.BackgroundTransparency = 1 -- Make the background invisible
         textLabel.Font = Enum.Font.SourceSansBold -- Optional: Choose a font style
@@ -45,8 +45,8 @@ local function createBillboardGui(character)
         -- Loop to update the text color and size based on distance
         local t = 0
         while true do
-            -- Update color loop from pink to white
-            textLabel.TextColor3 = getPinkToWhiteColor(t)
+            -- Update color loop from yellow to white
+            textLabel.TextColor3 = getYellowToWhiteColor(t)
             t = t + 0.05
 
             -- Update text size based on player's distance from target player
