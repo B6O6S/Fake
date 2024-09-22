@@ -1,0 +1,7 @@
+local StarterGui = game:GetService("StarterGui")
+
+StarterGui:SetCore("SendNotification", {
+    Title = "طلب احد المسؤولين 📜"; -- The title of the notification
+    Text = "تم طلب احد مسوؤلين الهاك للدخول الى سيرفرك"; -- The body of the notification
+    Duration = 7; -- Time the notification will stay (in seconds)
+})
