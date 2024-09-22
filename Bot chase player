@@ -1,0 +1,7 @@
+local StarterGui = game:GetService("StarterGui")
+
+StarterGui:SetCore("SendNotification", {
+    Title = "🤖 بوت مطارده الاعب"; -- The title of the notification
+    Text = "جهازك لا يدعم هذه الميزه"; -- The body of the notification
+    Duration = 5; -- Time the notification will stay (in seconds)
+})
