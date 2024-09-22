@@ -1,0 +1,79 @@
+-- LocalScript
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Function to create a smooth transition between pink and white
+local function getPinkToWhiteColor(t)
+    local r = math.sin(t) * 127 + 255 -- Adjust red to move from pink to white
+    local g = math.sin(t + math.pi / 2) * 127 + 128 -- Adjust green slightly to pink
+    local b = math.sin(t) * 127 + 255 -- Adjust blue to move from pink to white
+    return Color3.fromRGB(r, g, b)
+end
+
+-- Function to create the BillboardGui
+local function createBillboardGui(character)
+    -- Remove any existing BillboardGui
+    if character:FindFirstChild("Head") then
+        for _, child in ipairs(character.Head:GetChildren()) do
+            if child:IsA("BillboardGui") then
+                child:Destroy()
+            end
+        end
+
+        -- Create a BillboardGui
+        local billboardGui = Instance.new("BillboardGui")
+        billboardGui.Parent = character.Head
+        billboardGui.Adornee = character.Head
+        billboardGui.Size = UDim2.new(0, 200, 0, 50)
+        billboardGui.StudsOffset = Vector3.new(0, 3, 0) -- Position it 3 studs above the player's head
+        billboardGui.AlwaysOnTop = true -- Ensure it is always visible
+        billboardGui.MaxDistance = 50 -- Maximum distance at which the text is visible
+
+        -- Create a TextLabel for the text
+        local textLabel = Instance.new("TextLabel")
+        textLabel.Parent = billboardGui
+        textLabel.Size = UDim2.new(1, 0, 1, 0) -- Full size of the billboard for the text
+        textLabel.Position = UDim2.new(0, 0, 0, 0) -- Position it at the top
+        textLabel.Text = "👑 مستخدم اسطوري" -- Updated text with crown emoji
+        textLabel.TextScaled = true -- Scales the text to fit the label size
+        textLabel.TextColor3 = Color3.fromRGB(255, 182, 193) -- Start with pink color
+        textLabel.TextStrokeTransparency = 0.5 -- Adds an outline to the text for readability
+        textLabel.BackgroundTransparency = 1 -- Make the background invisible
+        textLabel.Font = Enum.Font.SourceSansBold -- Optional: Choose a font style
+
+        -- Loop to update the text color and size based on distance
+        local t = 0
+        while true do
+            -- Update color loop from pink to white
+            textLabel.TextColor3 = getPinkToWhiteColor(t)
+            t = t + 0.05
+
+            -- Update text size based on player's distance from target player
+            if player.Character and player.Character:FindFirstChild("Head") then
+                local distance = (player.Character.Head.Position - character.Head.Position).Magnitude
+                local scaleFactor = math.clamp(1 / distance * 10, 0.5, 1) -- Adjust scale factor, clamp between 0.5 and 1
+                billboardGui.Size = UDim2.new(0, 200 * scaleFactor, 0, 50 * scaleFactor)
+            end
+
+            wait(0.1)
+        end
+    end
+end
+
+-- Function to handle player character respawn
+local function onCharacterAdded(character)
+    -- Loop to recreate the BillboardGui every 1 second
+    while true do
+        createBillboardGui(character)
+        wait(1) -- Recreate every 1 second
+    end
+end
+
+-- Connect to the player's character respawn
+player.CharacterAdded:Connect(onCharacterAdded)
+
+-- Initialize the BillboardGui if the character already exists
+if player.Character then
+    onCharacterAdded(player.Character)
+end
